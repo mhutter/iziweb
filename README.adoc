@@ -1,0 +1,37 @@
+= IziWeb
+
+https://www.izibizi.ch[GM Izi bizi] club management tools.
+
+== `api`
+
+JSON API backend written in Go.
+
+== `web`
+
+React.js frontend.
+
+
+== Development
+
+Start the development environment using Docker Compose:
+
+    docker-compose up
+
+If you run the dev environment for the first time, ensure the CockroachDB is properly initialized an all DBs and grants are created:
+
+    make initdb
+
+Other useful `make` tasks:
+
+- `resetdb` - Drop and recreate all databases
+- `flushdb` - Delete all entries from all tables, but do not drop tables or databases.
+
+
+== License
+
+MIT (see link:LICENSE[LICENSE])
+
+---
+> https://hutter.io/[Manuel Hutter] -
+> GitHub https://github.com/mhutter[@mhutter] -
+> Twitter https://twitter.com/dratir[@dratir]

@@ -1,0 +1,12 @@
+.Journal {
+  width: 100%;
+}
+
+.chf {
+  text-align: right;
+}
+.chf::before {
+  content: 'Fr.';
+  padding-right: 1em;
+  float: left;
+}

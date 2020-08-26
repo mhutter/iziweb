@@ -1,0 +1,9 @@
+= Izibizi API
+
+== Development
+
+See README in the parent directory.
+
+== References
+
+- https://gorm.io/docs/[GORM docs]

@@ -1,0 +1,7 @@
+FROM docker.io/library/golang:1.15-alpine
+
+WORKDIR /src
+RUN apk add --no-cache git && \
+    go get github.com/codegangsta/gin
+
+CMD ["gin", "--build=cmd/server", "--immediate"]

@@ -1,0 +1,14 @@
+= Izibizi Webgui
+
+Client side code for the Iziweb application.
+
+This project was bootstrapped with https://github.com/facebook/create-react-app[Create React App]. https://github.com/facebook/create-react-app/blob/master/packages/cra-template/template/README.md[Original README]
+
+== Development
+
+See README in parent directory.
+
+== References
+
+- https://reactjs.org/docs/[React docs]
+- https://getbootstrap.com/docs/4.5/components/[Bootstrap docs]

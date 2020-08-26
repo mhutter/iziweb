@@ -1,0 +1,54 @@
+---
+version: '3.8'
+
+x-roach: &roach
+  image: 'docker.io/cockroachdb/cockroach:v20.1.4'
+  command: start --insecure --join roach1,roach2,roach3
+
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    environment:
+      DB_URL: 'postgres://iziweb_dev@roach1:26257/iziweb_dev?sslmode=disable'
+    ports:
+      - '3000:3000'
+    volumes:
+      - './api:/src'
+
+  web:
+    image: 'docker.io/library/node:14.8-slim'
+    command: /bin/sh -c 'cd /src && yarn start'
+    stdin_open: true
+    ports:
+      - '4000:4000'
+    volumes:
+      - './web:/src'
+
+  roach1:
+    <<: *roach
+    hostname: roach1
+    container_name: roach1
+    ports:
+      - '26257:26257'
+      - '18080:8080'
+    volumes:
+      - 'roach1:/cockroach/cockroach-data'
+  roach2:
+    <<: *roach
+    hostname: roach2
+    container_name: roach2
+    volumes:
+      - 'roach2:/cockroach/cockroach-data'
+  roach3:
+    <<: *roach
+    hostname: roach3
+    container_name: roach3
+    volumes:
+      - 'roach3:/cockroach/cockroach-data'
+
+volumes:
+  roach1: {}
+  roach2: {}
+  roach3: {}
