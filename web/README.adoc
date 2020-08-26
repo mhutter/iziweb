@@ -6,7 +6,11 @@ This project was bootstrapped with https://github.com/facebook/create-react-app[
 
 == Development
 
-See README in parent directory.
+Simply run
+
+    yarn start
+
+for a development server with hot reload.
 
 == References
 

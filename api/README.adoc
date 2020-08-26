@@ -2,7 +2,19 @@
 
 == Development
 
-See README in the parent directory.
+Start the development environment using Docker Compose:
+
+    docker-compose up
+
+If you run the dev environment for the first time, ensure the CockroachDB is properly initialized an all DBs and grants are created:
+
+    make initdb
+
+Other useful `make` tasks:
+
+- `resetdb` - Drop and recreate all databases
+- `flushdb` - Delete all entries from all tables, but do not drop tables or databases.
+
 
 == References
 
