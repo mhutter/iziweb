@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TransactionList = ({ children }) => (
+const TransactionList: React.FC = ({ children }) => (
   <table className='table'>
     <thead>
       <tr>
@@ -14,9 +14,7 @@ const TransactionList = ({ children }) => (
         <th />
       </tr>
     </thead>
-    <tbody>
-      {children}
-    </tbody>
+    <tbody>{children}</tbody>
   </table>
 )
 
