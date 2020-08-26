@@ -1,7 +1,11 @@
 import React from 'react'
 
-const Error = ({ error }) => {
-  if (error) {
+interface Props {
+  error: any
+}
+
+const Error: React.FC<Props> = ({ error }) => {
+  if (error !== null) {
     return (
       <div className='alert alert-danger'>
         <strong>Fehler:</strong> {error.toString()}
