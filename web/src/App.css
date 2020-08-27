@@ -10,3 +10,14 @@
   padding-right: 1em;
   float: left;
 }
+
+.sort-asc::after {
+  content: '▲';
+  float: right;
+  color: #666;
+}
+.sort-desc::after {
+  content: '▼';
+  float: right;
+  color: #666;
+}

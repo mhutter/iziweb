@@ -5,13 +5,18 @@ import ImportForm from './ImportForm'
 import finance from '../../api/finance'
 import Error from '../Error'
 import TransactionRow from './TransactionRow'
-import { Transaction } from '../../model/finance'
+import { Transaction, sortTransactions } from '../../model/finance'
 
 const Journal: React.FC = () => {
   // State
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [error, setError] = useState<Error | null>(null)
   const [transactions, setTransactions] = useState<Array<Transaction>>([])
+  const [sort, setSort] = useState<{
+    by: keyof Transaction
+    dir: 'asc' | 'desc'
+  }>({ by: 'date', dir: 'desc' })
+  const [sorted, setSorted] = useState<Array<Transaction>>([])
 
   // lazily load transactions
   useEffect(() => {
@@ -27,8 +32,13 @@ const Journal: React.FC = () => {
     setIsLoading(false)
   }, [])
 
+  useEffect(() => {
+    setSorted(transactions.slice().sort(sortTransactions(sort.by, sort.dir)))
+  }, [transactions, sort])
+
   const addTransactions = (txs: Array<Transaction>) =>
     setTransactions(transactions.concat(txs))
+
   const deleteTransaction = (id: string) =>
     finance
       .deleteTransaction(id)
@@ -37,11 +47,22 @@ const Journal: React.FC = () => {
         setError
       )
 
+  const toggleSort = (field: keyof Transaction) => {
+    setSort({
+      by: field,
+      dir: sort.by === field && sort.dir === 'desc' ? 'asc' : 'desc',
+    })
+  }
+
   const transactionList = isLoading ? (
     <div className='alert alert-success'>Lade Daten...</div>
   ) : (
-    <TransactionList>
-      {transactions.map((t) => (
+    <TransactionList
+      sortBy={sort.by}
+      sortDir={sort.dir}
+      toggleSort={toggleSort}
+    >
+      {sorted.map((t) => (
         <TransactionRow
           key={t.id}
           {...t}
