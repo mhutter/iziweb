@@ -5,23 +5,12 @@ import TransactionList from './TransactionList'
 import Error from '../Error'
 import finance from '../../api/finance'
 import TransactionRow from './TransactionRow'
-import { Transaction } from '../../model/finance'
 
-interface Props {
-  addTransactions: (txs: Array<Transaction>) => void
-}
-
-interface State {
-  value: string
-  data: Array<Transaction>
-  error: Error | null
-}
-
-class ImportForm extends React.Component<Props, State> {
+class ImportForm extends React.Component {
   initialState: State = { value: '', data: [], error: null }
   state: State = this.initialState
 
-  handleChange(event: any) {
+  handleChange(event) {
     const value = event.target.value
     const rows = value
       // split into rows
@@ -29,11 +18,11 @@ class ImportForm extends React.Component<Props, State> {
       // split rows into columns and trim each column
       .map((r: string) => r.split('\t').map((c) => c.trim()))
       // ignore the header line
-      .filter((parts: Array<string>) => parts[0] !== 'Datum')
+      .filter((parts) => parts[0] !== 'Datum')
     let error = null
 
     const data = rows
-      .map((parts: Array<string>) => {
+      .map((parts) => {
         if (parts.length !== 7) {
           error = `Ungültige Zeile: ${parts}`
           return null
@@ -52,12 +41,12 @@ class ImportForm extends React.Component<Props, State> {
           receipt: parts[6],
         }
       })
-      .filter((i: any) => i !== null)
+      .filter((i) => i !== null)
 
     this.setState({ value, data, error })
   }
 
-  handleSubmit(event: any) {
+  handleSubmit(event) {
     event.preventDefault()
     finance.createTransactions(this.state.data).then(
       (transactions) => {

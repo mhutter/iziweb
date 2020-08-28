@@ -19,7 +19,7 @@ const getTransactions = async () => {
     .then(parseTransactions)
 }
 
-const createTransactions = async (transactions: object) => {
+const createTransactions = async (transactions) => {
   return fetch('/api/finance/transactions', {
     ...reqBase,
     method: 'POST',
@@ -30,23 +30,23 @@ const createTransactions = async (transactions: object) => {
     .then(parseTransactions)
 }
 
-const deleteTransaction = async (id: string) => {
+const deleteTransaction = async (id) => {
   return fetch(`/api/finance/transactions/${id}`, {
     ...reqBase,
     method: 'DELETE',
   }).then(checkStatus)
 }
 
-const parseTransactions = (body: Array<Transaction>) =>
+const parseTransactions = (body) =>
   body.map(parseTransaction)
 
-const parseTransaction = (tx: Transaction): Transaction => ({
+const parseTransaction = (tx): Transaction => ({
   ...tx,
   date: moment(tx.date),
   saved: true,
 })
 
-const checkStatus = async (response: Response) => {
+const checkStatus = async (response) => {
   if (response.status >= 200 && response.status < 300) {
     return response
   }

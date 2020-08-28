@@ -1,13 +1,8 @@
 import React from 'react'
-import { Transaction } from '../../model/finance'
 
 const moneyFormat = new Intl.NumberFormat('de-CH', { minimumFractionDigits: 2 })
 
-interface Props extends Transaction {
-  deleteTransaction?: (id: string) => any
-}
-
-const TransactionRow: React.FC<Props> = ({
+const TransactionRow = ({
   id,
   date,
   debit,

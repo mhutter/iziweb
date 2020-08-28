@@ -5,18 +5,15 @@ import ImportForm from './ImportForm'
 import finance from '../../api/finance'
 import Error from '../Error'
 import TransactionRow from './TransactionRow'
-import { Transaction, sortTransactions } from '../../model/finance'
+import { sortTransactions } from '../../model/finance'
 
-const Journal: React.FC = () => {
+const Journal = () => {
   // State
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [error, setError] = useState<Error | null>(null)
-  const [transactions, setTransactions] = useState<Array<Transaction>>([])
-  const [sort, setSort] = useState<{
-    by: keyof Transaction
-    dir: 'asc' | 'desc'
-  }>({ by: 'date', dir: 'desc' })
-  const [sorted, setSorted] = useState<Array<Transaction>>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [transactions, setTransactions] = useState([])
+  const [sort, setSort] = useState({ by: 'date', dir: 'desc' })
+  const [sorted, setSorted] = useState([])
 
   // lazily load transactions
   useEffect(() => {
@@ -33,13 +30,13 @@ const Journal: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    setSorted(transactions.slice().sort(sortTransactions(sort.by, sort.dir)))
+    setSorted(transactions.slice().sort(sortTransactions(sort)))
   }, [transactions, sort])
 
-  const addTransactions = (txs: Array<Transaction>) =>
+  const addTransactions = (txs) =>
     setTransactions(transactions.concat(txs))
 
-  const deleteTransaction = (id: string) =>
+  const deleteTransaction = (id) =>
     finance
       .deleteTransaction(id)
       .then(
@@ -47,7 +44,7 @@ const Journal: React.FC = () => {
         setError
       )
 
-  const toggleSort = (field: keyof Transaction) => {
+  const toggleSort = (field) => {
     setSort({
       by: field,
       dir: sort.by === field && sort.dir === 'desc' ? 'asc' : 'desc',
@@ -57,20 +54,20 @@ const Journal: React.FC = () => {
   const transactionList = isLoading ? (
     <div className='alert alert-success'>Lade Daten...</div>
   ) : (
-    <TransactionList
-      sortBy={sort.by}
-      sortDir={sort.dir}
-      toggleSort={toggleSort}
-    >
-      {sorted.map((t) => (
-        <TransactionRow
-          key={t.id}
-          {...t}
-          deleteTransaction={deleteTransaction}
-        />
-      ))}
-    </TransactionList>
-  )
+      <TransactionList
+        sortBy={sort.by}
+        sortDir={sort.dir}
+        toggleSort={toggleSort}
+      >
+        {sorted.map((t) => (
+          <TransactionRow
+            key={t.id}
+            {...t}
+            deleteTransaction={deleteTransaction}
+          />
+        ))}
+      </TransactionList>
+    )
 
   return (
     <div className='Journal'>

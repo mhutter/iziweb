@@ -1,26 +1,10 @@
 import React from 'react'
-import { Transaction } from '../../model/finance'
 
-interface Props {
-  sortBy?: keyof Transaction
-  sortDir?: 'asc' | 'desc'
-  toggleSort?: (field: keyof Transaction) => void
-}
-
-const TransactionList: React.FC<Props> = ({
-  children,
-  sortBy,
-  sortDir,
-  toggleSort,
-}) => {
-  const sortClass = (field: string): string | undefined =>
+const TransactionList = ({ children, sortBy, sortDir, toggleSort }) => {
+  const sortClass = (field) =>
     sortBy === field ? `sort-${sortDir}` : undefined
 
-  const onClick = (field: keyof Transaction) => {
-    if (toggleSort !== undefined) {
-      return () => toggleSort(field)
-    }
-  }
+  const onClick = (field) => (toggleSort ? () => toggleSort(field) : undefined)
 
   return (
     <table className='table'>
