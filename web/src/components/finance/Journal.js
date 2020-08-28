@@ -6,32 +6,49 @@ import finance from '../../api/finance'
 import Error from '../Error'
 import TransactionRow from './TransactionRow'
 import { sortTransactions } from '../../model/finance'
+import TransactionFilter from './TransactionFilter'
 
 const Journal = () => {
   // State
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const [transactions, setTransactions] = useState([])
+  const [filter, setFilter] = useState({ text: '', startDate: null, endDate: null })
   const [sort, setSort] = useState({ by: 'date', dir: 'desc' })
   const [sorted, setSorted] = useState([])
 
   // lazily load transactions
   useEffect(() => {
-    setIsLoading(true)
-    setError(null)
+    (async () => {
+      setIsLoading(true)
+      setError(null)
 
-    finance.getTransactions().then(
-      // on success
-      setTransactions,
-      // on error
-      setError
-    )
-    setIsLoading(false)
+      await finance.getTransactions().then(
+        // on success
+        setTransactions,
+        // on error
+        setError
+      )
+      setIsLoading(false)
+    })()
   }, [])
 
   useEffect(() => {
-    setSorted(transactions.slice().sort(sortTransactions(sort)))
-  }, [transactions, sort])
+    setSorted(transactions
+      .slice()
+      .filter(t => {
+        const text = filter.text.toLocaleLowerCase()
+        return text === '' ||
+          t.date.format('DD.MM.YYYY').includes(text) ||
+          t.debit.toString().includes(text) ||
+          t.credit.toString().includes(text) ||
+          t.text.toLocaleLowerCase().includes(text) ||
+          t.who.toLocaleLowerCase().includes(text) ||
+          t.amount.toString().includes(text) ||
+          t.receipt.toLocaleLowerCase().includes(text)
+      })
+      .sort(sortTransactions(sort)))
+  }, [transactions, filter, sort])
 
   const addTransactions = (txs) =>
     setTransactions(transactions.concat(txs))
@@ -73,6 +90,7 @@ const Journal = () => {
     <div className='Journal'>
       <h1>Buchungsjournal</h1>
       <Error error={error} />
+      <TransactionFilter {...filter} setFilter={setFilter} />
       {transactionList}
 
       <ImportForm addTransactions={addTransactions} />

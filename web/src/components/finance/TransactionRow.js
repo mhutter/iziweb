@@ -29,7 +29,7 @@ const TransactionRow = ({
       <td>{credit}</td>
       <td>{text}</td>
       <td>{who}</td>
-      <td className='chf'>{moneyFormat.format(amount / 100)}</td>
+      <td className='chf'>{moneyFormat.format(amount)}</td>
       <td>{receipt}</td>
       <td>{deleteButton}</td>
     </tr>

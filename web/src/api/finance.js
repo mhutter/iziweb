@@ -43,6 +43,7 @@ const parseTransactions = (body) =>
 const parseTransaction = (tx): Transaction => ({
   ...tx,
   date: moment(tx.date),
+  amount: tx.amount / 100,
   saved: true,
 })
 
