@@ -5,7 +5,7 @@ import ImportForm from './ImportForm'
 import finance from '../../api/finance'
 import Error from '../Error'
 import TransactionRow from './TransactionRow'
-import { sortTransactions } from '../../model/finance'
+import { sortTransactions, filterTransactions } from '../../model/finance'
 import TransactionFilter from './TransactionFilter'
 
 const Journal = () => {
@@ -38,20 +38,12 @@ const Journal = () => {
   }, [])
 
   useEffect(() => {
-    setSorted(transactions
-      .slice()
-      .filter(t => {
-        const text = filter.text.toLocaleLowerCase()
-        return text === '' ||
-          t.date.format('DD.MM.YYYY').includes(text) ||
-          t.debit.toString().includes(text) ||
-          t.credit.toString().includes(text) ||
-          t.text.toLocaleLowerCase().includes(text) ||
-          t.who.toLocaleLowerCase().includes(text) ||
-          t.amount.toString().includes(text) ||
-          t.receipt.toLocaleLowerCase().includes(text)
-      })
-      .sort(sortTransactions(sort)))
+    setSorted(
+      transactions
+        .slice()
+        .filter(filterTransactions(filter))
+        .sort(sortTransactions(sort))
+    )
   }, [transactions, filter, sort])
 
   const addTransactions = (txs) => setTransactions(transactions.concat(txs))
