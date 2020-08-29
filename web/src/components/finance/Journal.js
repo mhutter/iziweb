@@ -13,13 +13,17 @@ const Journal = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const [transactions, setTransactions] = useState([])
-  const [filter, setFilter] = useState({ text: '', startDate: null, endDate: null })
+  const [filter, setFilter] = useState({
+    text: '',
+    startDate: null,
+    endDate: null,
+  })
   const [sort, setSort] = useState({ by: 'date', dir: 'desc' })
   const [sorted, setSorted] = useState([])
 
   // lazily load transactions
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       setIsLoading(true)
       setError(null)
 
@@ -50,8 +54,7 @@ const Journal = () => {
       .sort(sortTransactions(sort)))
   }, [transactions, filter, sort])
 
-  const addTransactions = (txs) =>
-    setTransactions(transactions.concat(txs))
+  const addTransactions = (txs) => setTransactions(transactions.concat(txs))
 
   const deleteTransaction = (id) =>
     finance
@@ -71,20 +74,20 @@ const Journal = () => {
   const transactionList = isLoading ? (
     <div className='alert alert-success'>Lade Daten...</div>
   ) : (
-      <TransactionList
-        sortBy={sort.by}
-        sortDir={sort.dir}
-        toggleSort={toggleSort}
-      >
-        {sorted.map((t) => (
-          <TransactionRow
-            key={t.id}
-            {...t}
-            deleteTransaction={deleteTransaction}
-          />
-        ))}
-      </TransactionList>
-    )
+    <TransactionList
+      sortBy={sort.by}
+      sortDir={sort.dir}
+      toggleSort={toggleSort}
+    >
+      {sorted.map((t) => (
+        <TransactionRow
+          key={t.id}
+          {...t}
+          deleteTransaction={deleteTransaction}
+        />
+      ))}
+    </TransactionList>
+  )
 
   return (
     <div className='Journal'>
