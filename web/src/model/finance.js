@@ -26,22 +26,15 @@ export function sortTransactions({ by, dir }) {
   }
 }
 
-export function filterTransactions({ text, startDate, endDate }) {
-  text = text.toLocaleLowerCase()
-  return (t) => {
-    const textMatch =
-      text === '' ||
-      t.date.format('DD.MM.YYYY').includes(text) ||
-      t.debit.toString().includes(text) ||
-      t.credit.toString().includes(text) ||
-      t.text.toLocaleLowerCase().includes(text) ||
-      t.who.toLocaleLowerCase().includes(text) ||
-      t.amount.toString().includes(text) ||
-      t.receipt.toLocaleLowerCase().includes(text)
-
-    const startDateMatch = startDate === null || t.date >= startDate
-    const endDateMatch = endDate === null || t.date <= endDate
-
-    return textMatch && startDateMatch && endDateMatch
-  }
+export function filterTransactions(filter) {
+  const text = filter.toLocaleLowerCase()
+  return (t) =>
+    text === '' ||
+    t.date.format('DD.MM.YYYY').includes(text) ||
+    t.debit.toString().includes(text) ||
+    t.credit.toString().includes(text) ||
+    t.text.toLocaleLowerCase().includes(text) ||
+    t.who.toLocaleLowerCase().includes(text) ||
+    t.amount.toString().includes(text) ||
+    t.receipt.toLocaleLowerCase().includes(text)
 }

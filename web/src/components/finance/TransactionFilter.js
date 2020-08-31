@@ -1,35 +1,14 @@
-import React, { useState } from 'react'
-import { DateRangePicker } from 'react-dates'
+import React from 'react'
 
-const TransactionFilter = ({ text, startDate, endDate, setFilter }) => {
-  const [focusedInput, setFocusedInput] = useState('START_DATE')
+const TransactionFilter = ({ filter, setFilter }) => {
   return (
     <p className='form-row'>
-      <DateRangePicker
-        startDate={startDate}
-        startDateId='journal-date-range-start'
-        startDatePlaceholderText='von'
-        endDate={endDate}
-        endDateId='journal-date-range-end'
-        endDatePlaceholderText='bis'
-        onDatesChange={({ startDate, endDate }) =>
-          setFilter({ text, startDate, endDate })
-        }
-        focusedInput={focusedInput}
-        onFocusChange={setFocusedInput}
-        numberOfMonths={1}
-        showClearDates={true}
-        firstDayOfWeek={1}
-        isOutsideRange={() => false}
-      />
       <input
         type='text'
-        className='form-control col-md-8 ml-3 my-auto'
+        className='form-control'
         placeholder='Filter'
-        value={text}
-        onChange={(e) =>
-          setFilter({ text: e.target.value, startDate, endDate })
-        }
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
       />
     </p>
   )

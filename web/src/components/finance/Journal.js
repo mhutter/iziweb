@@ -13,11 +13,7 @@ const Journal = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const [transactions, setTransactions] = useState([])
-  const [filter, setFilter] = useState({
-    text: '',
-    startDate: null,
-    endDate: null,
-  })
+  const [filter, setFilter] = useState('')
   const [sort, setSort] = useState({ by: 'date', dir: 'desc' })
   const [sorted, setSorted] = useState([])
 
@@ -85,7 +81,7 @@ const Journal = () => {
     <div className='Journal'>
       <h1>Buchungsjournal</h1>
       <Error error={error} />
-      <TransactionFilter {...filter} setFilter={setFilter} />
+      <TransactionFilter {...{ filter, setFilter }} />
       {transactionList}
 
       <ImportForm addTransactions={addTransactions} />
