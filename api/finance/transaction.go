@@ -13,9 +13,9 @@ type Transaction struct {
 	Debit     uint16     `json:"debit" gorm:"type:int2"`
 	Credit    uint16     `json:"credit" gorm:"type:int2"`
 	Text      string     `json:"text"`
-	Who       string     `json:"who"`
+	Who       string     `json:"who,omitempty"`
 	Amount    int        `json:"amount"`
-	Receipt   string     `json:"receipt"`
+	Receipt   string     `json:"receipt,omitempty"`
 	CreatedAt time.Time  `json:"created_at"`
 	UpdatedAt time.Time  `json:"updated_at"`
 	DeletedAt *time.Time `json:"-"`
