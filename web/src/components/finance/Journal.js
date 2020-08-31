@@ -7,6 +7,7 @@ import Error from '../Error'
 import TransactionRow from './TransactionRow'
 import { sortTransactions, filterTransactions } from '../../model/finance'
 import TransactionFilter from './TransactionFilter'
+import TransactionForm from './TransactionForm'
 
 const Journal = () => {
   // State
@@ -67,6 +68,7 @@ const Journal = () => {
       sortDir={sort.dir}
       toggleSort={toggleSort}
     >
+      <TransactionForm {...{ addTransactions, setError }} />
       {sorted.map((t) => (
         <TransactionRow
           key={t.id}
