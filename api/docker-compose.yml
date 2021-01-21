@@ -2,7 +2,7 @@
 version: '3.8'
 
 x-roach: &roach
-  image: 'docker.io/cockroachdb/cockroach:v20.2.3'
+  image: 'docker.io/cockroachdb/cockroach:v20.2.4'
   command: start --insecure --join roach1,roach2,roach3
 
 services:
